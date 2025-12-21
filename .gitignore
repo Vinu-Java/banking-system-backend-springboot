@@ -15,6 +15,7 @@ Thumbs.db
 .env
 application.properties
 application.yml
+appilication.yaml
 
 .mvn/timing.properties
 
