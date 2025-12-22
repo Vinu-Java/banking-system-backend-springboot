@@ -24,10 +24,13 @@ public class AdminAccountService implements AdminAccountServiceInterface {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
     private final AccountService accountService;
+
+
     @Override
     public AccountResponseDTO createAccount(AccountCreateRequestDTO dto) {
 
         User user = new User();
+
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
@@ -96,7 +99,7 @@ public class AdminAccountService implements AdminAccountServiceInterface {
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
         if (dto.getAmount() <= 0) {
-            throw new InsufficientBalanceException("Withdraw amount must be greater than zero");
+            throw new InsufficientBalanceException("Withdraw amount must be positive");
         }
 
         if (account.getBalance() < dto.getAmount()) {
@@ -110,11 +113,13 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
         return "Withdraw successful";
     }
+
     private String generateAccountNumber() {
         return String.valueOf(
                 Math.abs(UUID.randomUUID().getMostSignificantBits())
         ).substring(0, 10);
     }
+
     private AccountResponseDTO mapToResponse(Account account) {
         AccountResponseDTO response = new AccountResponseDTO();
         response.setAccountNumber(account.getAccountNumber());

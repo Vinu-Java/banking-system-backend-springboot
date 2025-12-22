@@ -1,12 +1,11 @@
 spring:
   application:
     name: banking-system
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/banking_new_project?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/banking-system?createDatabaseIfNotExist=true
     username: root
-    password: Vijay@09
+    password: root
 
   jpa:
     show-sql: true
@@ -16,6 +15,3 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-
-

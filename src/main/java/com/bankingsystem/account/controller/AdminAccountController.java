@@ -15,15 +15,6 @@ public class AdminAccountController {
     private final AccountServiceInterface accountService;
     private final AdminAccountServiceInterface adminAccountService;
 
-    @PostMapping("/deposit")
-    public String deposit(@RequestBody DepositRequestDTO dto) {
-        return adminAccountService.deposit(dto);
-    }
-
-    @PostMapping("/withdraw")
-    public String withdraw(@RequestBody WithdrawRequestDTO dto) {
-        return adminAccountService.withdraw(dto);
-    }
 
     @PostMapping("/create")
     public AccountResponseDTO createAccount(@Valid @RequestBody AccountCreateRequestDTO dto) {
@@ -39,8 +30,22 @@ public class AdminAccountController {
     public String delete(@PathVariable Long accountId) {
         return adminAccountService.deleteAccount(accountId);
     }
+
+
+    @PostMapping("/deposit")
+    public String deposit(@RequestBody DepositRequestDTO dto) {
+        return adminAccountService.deposit(dto);
+    }
+
     @PostMapping("/transfer")
     public String transfer(@Valid @RequestBody TransferRequestDTO dto) {
         return accountService.transfer(dto);
     }
+
+    @PostMapping("/withdraw")
+    public String withdraw(@RequestBody WithdrawRequestDTO dto) {
+        return adminAccountService.withdraw(dto);
+    }
+
+
 }

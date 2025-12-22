@@ -20,5 +20,7 @@ public class AccountController {
     public String transfer(@Valid @RequestBody TransferRequestDTO dto) {
         return accountServiceInterface.transfer(dto);
     }
+
+
 }
 
