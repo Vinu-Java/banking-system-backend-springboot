@@ -17,7 +17,7 @@ public class TransactionController {
 
     TransactionServiceInterface service;
 
-    @GetMapping("all/")
+    @GetMapping("/all")
     private Page<TransactionResponseDTO> getTransactionsByAccountNumber(@RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ) {
         return service.getTransactionsByAccountNumber(transactionHistoryRequestDTO);
     }
