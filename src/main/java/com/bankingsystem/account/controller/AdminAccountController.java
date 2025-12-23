@@ -22,7 +22,7 @@ public class AdminAccountController {
     }
 
     @PutMapping("/update/{accountId}")
-    public String update(@PathVariable Long accountId, @RequestBody UpdateAccountRequestDTO dto) {
+    public String update(@PathVariable Long accountId, @Valid @RequestBody UpdateAccountRequestDTO dto) {
         return adminAccountService.updateAccount(accountId, dto);
     }
 
@@ -33,7 +33,7 @@ public class AdminAccountController {
 
 
     @PostMapping("/deposit")
-    public String deposit(@RequestBody DepositRequestDTO dto) {
+    public String deposit(@Valid @RequestBody DepositRequestDTO dto) {
         return adminAccountService.deposit(dto);
     }
 
@@ -43,7 +43,7 @@ public class AdminAccountController {
     }
 
     @PostMapping("/withdraw")
-    public String withdraw(@RequestBody WithdrawRequestDTO dto) {
+    public String withdraw(@Valid @RequestBody WithdrawRequestDTO dto) {
         return adminAccountService.withdraw(dto);
     }
 
