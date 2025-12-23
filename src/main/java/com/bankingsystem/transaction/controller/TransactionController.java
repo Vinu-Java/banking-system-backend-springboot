@@ -3,9 +3,7 @@ package com.bankingsystem.transaction.controller;
 import com.bankingsystem.dto.TransactionHistoryRequestDTO;
 import com.bankingsystem.dto.TransactionResponseDTO;
 import com.bankingsystem.enum_pack.TransactionType;
-import com.bankingsystem.transaction.repository.TransactionRepository;
 import com.bankingsystem.transaction.service.TransactionServiceInterface;
-import com.bankingsystem.transaction.service.implementation.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +31,8 @@ public class TransactionController {
     }
 
     @GetMapping("/transfer")
-    private Page<TransactionResponseDTO> transferTransaction(@RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
+    private Page<TransactionResponseDTO> transferTransaction(
+            @RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
         return service.getTransactionsByRequiredType( transactionHistoryRequestDTO, TransactionType.TRANSFER);
     }
 }
