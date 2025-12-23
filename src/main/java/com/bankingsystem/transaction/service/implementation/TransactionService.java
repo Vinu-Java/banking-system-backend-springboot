@@ -54,6 +54,7 @@ public class TransactionService implements TransactionServiceInterface {
 
         return transactionPage.map(this::mapToDTO);
     }
+
     private TransactionResponseDTO mapToDTO(Transaction transaction) {
         TransactionResponseDTO dto = new TransactionResponseDTO();
         dto.setAmount(transaction.getAmount());
