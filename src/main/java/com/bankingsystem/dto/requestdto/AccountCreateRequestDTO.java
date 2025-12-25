@@ -1,7 +1,7 @@
-package com.bankingsystem.dto;
+package com.bankingsystem.dto.requestdto;
 
 
-import com.bankingsystem.enum_pack.AccountType;
+import com.bankingsystem.enums.AccountType;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 

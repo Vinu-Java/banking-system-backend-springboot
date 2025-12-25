@@ -1,7 +1,7 @@
 package com.bankingsystem.account.entity;
 
-import com.bankingsystem.enum_pack.AccountStatus;
-import com.bankingsystem.enum_pack.AccountType;
+import com.bankingsystem.enums.AccountStatus;
+import com.bankingsystem.enums.AccountType;
 import com.bankingsystem.transaction.entity.Transaction;
 import com.bankingsystem.user.entity.User;
 import jakarta.persistence.*;

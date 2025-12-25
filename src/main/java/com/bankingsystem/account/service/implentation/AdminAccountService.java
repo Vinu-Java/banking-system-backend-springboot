@@ -3,10 +3,18 @@ package com.bankingsystem.account.service.implentation;
 import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
 import com.bankingsystem.account.service.AdminAccountServiceInterface;
-import com.bankingsystem.dto.*;
-import com.bankingsystem.enum_pack.AccountStatus;
-import com.bankingsystem.enum_pack.Role;
-import com.bankingsystem.enum_pack.TransactionType;
+import com.bankingsystem.dto.requestdto.AccountCreateRequestDTO;
+import com.bankingsystem.dto.requestdto.DepositRequestDTO;
+import com.bankingsystem.dto.requestdto.UpdateAccountRequestDTO;
+import com.bankingsystem.dto.requestdto.WithdrawRequestDTO;
+import com.bankingsystem.dto.responsedto.AccountResponseDTO;
+import com.bankingsystem.dto.responsedto.DepositResponseDTO;
+import com.bankingsystem.dto.responsedto.UpdateAccountResponseDTO;
+import com.bankingsystem.dto.responsedto.WithdrawResponseDTO;
+import com.bankingsystem.enums.AccountStatus;
+import com.bankingsystem.enums.Role;
+import com.bankingsystem.enums.TransactionType;
+import com.bankingsystem.exception.AccountBalanceNotZeroException;
 import com.bankingsystem.exception.AccountNotFoundException;
 import com.bankingsystem.exception.InsufficientBalanceException;
 import com.bankingsystem.user.entity.User;
@@ -30,7 +38,6 @@ public class AdminAccountService implements AdminAccountServiceInterface {
     public AccountResponseDTO createAccount(AccountCreateRequestDTO dto) {
 
         User user = new User();
-
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
@@ -47,36 +54,49 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         user.setAccount(account);
         userRepository.save(user);
 
-
         return mapToResponse(account);
     }
 
     @Override
-    public String updateAccount(Long accountId, UpdateAccountRequestDTO dto) {
-        User user = userRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("User not found"));
-
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setPhone(dto.getPhone());
-        user.setPassword(dto.getPassword());
-
-        userRepository.save(user);
-        return "Account updated successfully";
-    }
-
-    @Override
-    public String deleteAccount(Long accountId) {
+    public UpdateAccountResponseDTO updateAccount(Long accountId, UpdateAccountRequestDTO dto) {
 
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
-        accountRepository.delete(account);
-        return "Account deleted successfully";
+
+        User user = account.getUser();
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
+
+        userRepository.save(user);
+
+        return new UpdateAccountResponseDTO(
+                account.getAccountNumber(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone()
+        );
     }
 
     @Override
     @Transactional
-    public String deposit(DepositRequestDTO dto) {
+    public void deleteAccount(Long accountId) {
+
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+
+        if (account.getBalance() > 0) {
+            throw new AccountBalanceNotZeroException(
+                    "Account cannot be deleted because balance is greater than zero"
+            );
+        }
+
+        accountRepository.delete(account);
+    }
+    @Override
+    @Transactional
+    public DepositResponseDTO deposit(DepositRequestDTO dto) {
+
         Account account = accountRepository.findByAccountNumber(dto.getAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
@@ -89,12 +109,17 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
         accountService.saveTransaction(account, dto.getAmount(), TransactionType.DEPOSIT);
 
-        return "Deposit successful";
+        return new DepositResponseDTO(
+                account.getAccountNumber(),
+                dto.getAmount(),
+                account.getBalance()
+        );
     }
 
     @Override
     @Transactional
-    public String withdraw(WithdrawRequestDTO dto) {
+    public WithdrawResponseDTO withdraw(WithdrawRequestDTO dto) {
+
         Account account = accountRepository.findByAccountNumber(dto.getAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
@@ -111,7 +136,11 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
         accountService.saveTransaction(account, dto.getAmount(), TransactionType.WITHDRAW);
 
-        return "Withdraw successful";
+        return new WithdrawResponseDTO(
+                account.getAccountNumber(),
+                dto.getAmount(),
+                account.getBalance()
+        );
     }
 
     private String generateAccountNumber() {
@@ -127,6 +156,6 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         response.setBalance(account.getBalance());
         response.setStatus(account.getStatus());
         return response;
-    }
+     }
 
 }

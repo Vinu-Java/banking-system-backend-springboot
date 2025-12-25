@@ -1,6 +1,5 @@
-package com.bankingsystem.dto;
+package com.bankingsystem.dto.requestdto;
 
-import com.bankingsystem.transaction.entity.Transaction;
 import jakarta.validation.constraints.*;
 import lombok.*;
 

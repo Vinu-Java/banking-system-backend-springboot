@@ -1,6 +1,6 @@
-package com.bankingsystem.dto;
+package com.bankingsystem.dto.responsedto;
 
-import com.bankingsystem.enum_pack.TransactionType;
+import com.bankingsystem.enums.TransactionType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ public class TransactionResponseDTO {
 
 
     private LocalDateTime timestamp;
-    private TransactionType type; // DEPOSIT / WITHDRAW / TRANSFER
+    private TransactionType type;
     private Double amount;
     private Double balanceAfter;
 }

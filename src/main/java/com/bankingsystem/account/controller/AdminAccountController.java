@@ -2,9 +2,12 @@ package com.bankingsystem.account.controller;
 
 import com.bankingsystem.account.service.AccountServiceInterface;
 import com.bankingsystem.account.service.AdminAccountServiceInterface;
-import com.bankingsystem.dto.*;
+import com.bankingsystem.dto.requestdto.*;
+import com.bankingsystem.dto.responsedto.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,34 +20,56 @@ public class AdminAccountController {
 
 
     @PostMapping("/create")
-    public AccountResponseDTO createAccount(@Valid @RequestBody AccountCreateRequestDTO dto) {
-        return adminAccountService.createAccount(dto);
+    public ResponseEntity<AccountResponseDTO> createAccount(
+            @Valid @RequestBody AccountCreateRequestDTO dto) {
+
+        AccountResponseDTO response = adminAccountService.createAccount(dto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @PutMapping("/update/{accountId}")
-    public String update(@PathVariable Long accountId, @Valid @RequestBody UpdateAccountRequestDTO dto) {
-        return adminAccountService.updateAccount(accountId, dto);
+    public ResponseEntity<UpdateAccountResponseDTO> updateAccount(
+            @PathVariable Long accountId,
+            @Valid @RequestBody UpdateAccountRequestDTO dto) {
+
+        UpdateAccountResponseDTO response =
+                adminAccountService.updateAccount(accountId, dto);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{accountId}")
-    public String delete(@PathVariable Long accountId) {
-        return adminAccountService.deleteAccount(accountId);
-    }
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
 
+        adminAccountService.deleteAccount(accountId);
+        return ResponseEntity.noContent().build();
+    }
 
     @PostMapping("/deposit")
-    public String deposit(@Valid @RequestBody DepositRequestDTO dto) {
-        return adminAccountService.deposit(dto);
-    }
+    public ResponseEntity<DepositResponseDTO> deposit(
+            @Valid @RequestBody DepositRequestDTO dto) {
 
-    @PostMapping("/transfer")
-    public String transfer(@Valid @RequestBody TransferRequestDTO dto) {
-        return accountService.transfer(dto);
+        DepositResponseDTO response = adminAccountService.deposit(dto);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/withdraw")
-    public String withdraw(@Valid @RequestBody WithdrawRequestDTO dto) {
-        return adminAccountService.withdraw(dto);
+    public ResponseEntity<WithdrawResponseDTO> withdraw(
+            @Valid @RequestBody WithdrawRequestDTO dto) {
+
+        WithdrawResponseDTO response = adminAccountService.withdraw(dto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<TransferResponseDTO> transfer(
+            @Valid @RequestBody TransferRequestDTO dto) {
+
+        TransferResponseDTO response = accountService.transfer(dto);
+        return ResponseEntity.ok(response);
     }
 
 

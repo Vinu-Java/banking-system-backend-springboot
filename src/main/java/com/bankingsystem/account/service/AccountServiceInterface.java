@@ -1,12 +1,14 @@
 package com.bankingsystem.account.service;
 
 
-import com.bankingsystem.dto.AccountNumberAndPasswordDTO;
-import com.bankingsystem.dto.TransferRequestDTO;
-import jakarta.validation.Valid;
+
+import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
+import com.bankingsystem.dto.requestdto.TransferRequestDTO;
+import com.bankingsystem.dto.responsedto.BalanceEnquiryResponseDTO;
+import com.bankingsystem.dto.responsedto.TransferResponseDTO;
 
 public interface AccountServiceInterface {
-    String transfer( TransferRequestDTO dto);
+    TransferResponseDTO transfer(TransferRequestDTO dto);
 
-    String balanceEnquiry(AccountNumberAndPasswordDTO accountNumberAndPasswordDTO);
+    BalanceEnquiryResponseDTO balanceEnquiry(AccountCredentialsDTO dto);
 }

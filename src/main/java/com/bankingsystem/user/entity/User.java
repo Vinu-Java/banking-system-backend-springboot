@@ -1,7 +1,7 @@
 package com.bankingsystem.user.entity;
 
 import com.bankingsystem.account.entity.Account;
-import com.bankingsystem.enum_pack.Role;
+import com.bankingsystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class User {
 
  @Enumerated(EnumType.STRING)
  @Column(nullable = false)
- private Role role;   // USER / MANAGER
+ private Role role;
 
  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
  private Account account;
