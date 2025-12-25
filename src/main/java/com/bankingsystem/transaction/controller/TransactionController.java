@@ -8,6 +8,7 @@ import com.bankingsystem.transaction.service.TransactionServiceInterface;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,26 +20,26 @@ public class TransactionController {
 
 
     @GetMapping("/all")
-    private Page<TransactionResponseDTO> getTransactionsByAccountNumber(@RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ) {
+    private ResponseEntity<Page<TransactionResponseDTO>> getTransactionsByAccountNumber(@RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ) {
 
-        return service.getTransactionsByAccountNumber(transactionHistoryRequestDTO);
+        return  ResponseEntity.ok( service.getTransactionsByAccountNumber(transactionHistoryRequestDTO));
     }
 
     @GetMapping("/withdraw")
-    private Page<TransactionResponseDTO> withdrawTransactions(@RequestBody @Valid TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
-        return service.getTransactionsByRequiredType(transactionHistoryRequestDTO, TransactionType.WITHDRAW);
+    private ResponseEntity<Page<TransactionResponseDTO>> withdrawTransactions(@RequestBody @Valid TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
+        return ResponseEntity.ok(service.getTransactionsByRequiredType(transactionHistoryRequestDTO, TransactionType.WITHDRAW));
     }
 
     @GetMapping("/deposit")
-    private Page<TransactionResponseDTO> depositTransaction(@RequestBody @Valid TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
-        return service.getTransactionsByRequiredType(transactionHistoryRequestDTO, TransactionType.DEPOSIT);
+    private ResponseEntity<Page<TransactionResponseDTO>> depositTransaction(@RequestBody @Valid TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
+        return ResponseEntity.ok(service.getTransactionsByRequiredType(transactionHistoryRequestDTO, TransactionType.DEPOSIT));
     }
 
     @GetMapping("/transfer")
-    private Page<TransactionResponseDTO> transferTransaction(
+    private ResponseEntity<Page<TransactionResponseDTO>> transferTransaction(
             @RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ){
 
-        return service.getTransactionsByRequiredType( transactionHistoryRequestDTO, TransactionType.TRANSFER);
+        return ResponseEntity.ok(service.getTransactionsByRequiredType( transactionHistoryRequestDTO, TransactionType.TRANSFER));
     }
 
 }
