@@ -3,7 +3,7 @@ package com.bankingsystem.account.service.implentation;
 import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
 import com.bankingsystem.account.service.AccountServiceInterface;
-import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
+import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
 import com.bankingsystem.dto.requestdto.TransferRequestDTO;
 import com.bankingsystem.dto.responsedto.BalanceEnquiryResponseDTO;
 import com.bankingsystem.dto.responsedto.TransferResponseDTO;
@@ -66,7 +66,7 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @Override
-    public BalanceEnquiryResponseDTO balanceEnquiry(AccountCredentialsDTO dto) {
+    public BalanceEnquiryResponseDTO balanceEnquiry(BalanceEnquiryRequestDTO dto) {
 
         Account account = accountRepository
                 .findByAccountNumber(dto.getAccountNumber())
