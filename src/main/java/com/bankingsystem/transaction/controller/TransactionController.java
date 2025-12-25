@@ -1,8 +1,8 @@
 package com.bankingsystem.transaction.controller;
 
-import com.bankingsystem.dto.TransactionHistoryRequestDTO;
-import com.bankingsystem.dto.TransactionResponseDTO;
-import com.bankingsystem.enum_pack.TransactionType;
+import com.bankingsystem.dto.requestdto.TransactionHistoryRequestDTO;
+import com.bankingsystem.dto.responsedto.TransactionResponseDTO;
+import com.bankingsystem.enums.TransactionType;
 import com.bankingsystem.transaction.service.TransactionServiceInterface;
 
 import jakarta.validation.Valid;

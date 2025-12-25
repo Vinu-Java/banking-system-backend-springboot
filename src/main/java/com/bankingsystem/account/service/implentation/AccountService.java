@@ -3,18 +3,17 @@ package com.bankingsystem.account.service.implentation;
 import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
 import com.bankingsystem.account.service.AccountServiceInterface;
-import com.bankingsystem.dto.AccountNumberAndPasswordDTO;
-import com.bankingsystem.dto.DepositRequestDTO;
-import com.bankingsystem.dto.TransferRequestDTO;
-import com.bankingsystem.dto.WithdrawRequestDTO;
-import com.bankingsystem.enum_pack.TransactionType;
+import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
+import com.bankingsystem.dto.requestdto.TransferRequestDTO;
+import com.bankingsystem.dto.responsedto.BalanceEnquiryResponseDTO;
+import com.bankingsystem.dto.responsedto.TransferResponseDTO;
+import com.bankingsystem.enums.TransactionType;
 import com.bankingsystem.exception.AccountNotFoundException;
-import com.bankingsystem.exception.IncorrectPasswordException;
 import com.bankingsystem.exception.InsufficientBalanceException;
+import com.bankingsystem.exception.InvalidCredentialsException;
 import com.bankingsystem.transaction.entity.Transaction;
 import com.bankingsystem.transaction.repository.TransactionRepository;
 import com.bankingsystem.user.entity.User;
-import com.bankingsystem.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,13 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class AccountService implements AccountServiceInterface {
+
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public String transfer(TransferRequestDTO dto) {
+    public TransferResponseDTO transfer(TransferRequestDTO dto) {
 
         if (dto.getFromAccountNumber().equals(dto.getToAccountNumber())) {
             throw new AccountNotFoundException("From and To account cannot be same");
@@ -49,35 +48,40 @@ public class AccountService implements AccountServiceInterface {
         }
 
         fromAccount.setBalance(fromAccount.getBalance() - dto.getAmount());
-
         toAccount.setBalance(toAccount.getBalance() + dto.getAmount());
 
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
 
         saveTransaction(fromAccount, dto.getAmount(), TransactionType.TRANSFER);
-
         saveTransaction(toAccount, dto.getAmount(), TransactionType.TRANSFER);
 
-        return "Transfer completed successfully";
+        return new TransferResponseDTO(
+                fromAccount.getAccountNumber(),
+                toAccount.getAccountNumber(),
+                dto.getAmount(),
+                fromAccount.getBalance()
+        );
+
     }
 
     @Override
-    public String balanceEnquiry(AccountNumberAndPasswordDTO accountNumberAndPasswordDTO) {
+    public BalanceEnquiryResponseDTO balanceEnquiry(BalanceEnquiryRequestDTO dto) {
 
-        Account account = accountRepository.findByAccountNumber(accountNumberAndPasswordDTO.getAccountNumber()).orElseThrow(()-> new AccountNotFoundException("Account not found!"));
+        Account account = accountRepository
+                .findByAccountNumber(dto.getAccountNumber())
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
         User user = account.getUser();
 
-        System.out.println(accountNumberAndPasswordDTO.getPassword()+"  "+user.getPassword());
-
-        if(user.getPassword().equals(accountNumberAndPasswordDTO.getPassword())) {
-
-            return "Your balance current balance is : " + account.getBalance();
-
-        }else {
-            throw new IncorrectPasswordException("Please check your password. It's wrong password");
+        if (!user.getPassword().equals(dto.getPassword())) {
+            throw new InvalidCredentialsException("Incorrect password");
         }
+
+        return new BalanceEnquiryResponseDTO(
+                account.getAccountNumber(),
+                account.getBalance()
+        );
     }
 
     public void saveTransaction(Account account, Double amount, TransactionType type) {

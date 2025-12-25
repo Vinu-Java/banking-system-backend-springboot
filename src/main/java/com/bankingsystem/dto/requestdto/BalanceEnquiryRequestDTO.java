@@ -1,4 +1,4 @@
-package com.bankingsystem.dto;
+package com.bankingsystem.dto.requestdto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class AccountNumberAndPasswordDTO {
+public class BalanceEnquiryRequestDTO {
 
     @NotBlank(message = "Account number is required")
     @Size(min = 10, max = 10, message = "Account number must be exactly 10 digits")

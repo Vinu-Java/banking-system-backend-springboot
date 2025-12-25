@@ -1,7 +1,7 @@
-package com.bankingsystem.dto;
+package com.bankingsystem.dto.responsedto;
 
-import com.bankingsystem.enum_pack.AccountStatus;
-import com.bankingsystem.enum_pack.AccountType;
+import com.bankingsystem.enums.AccountStatus;
+import com.bankingsystem.enums.AccountType;
 import lombok.Data;
 
 @Data

@@ -1,7 +1,7 @@
 package com.bankingsystem.transaction.entity;
 
 import com.bankingsystem.account.entity.Account;
-import com.bankingsystem.enum_pack.TransactionType;
+import com.bankingsystem.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,9 +2,9 @@ package com.bankingsystem.transaction.service.implementation;
 
 import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
-import com.bankingsystem.dto.TransactionHistoryRequestDTO;
-import com.bankingsystem.dto.TransactionResponseDTO;
-import com.bankingsystem.enum_pack.TransactionType;
+import com.bankingsystem.dto.requestdto.TransactionHistoryRequestDTO;
+import com.bankingsystem.dto.responsedto.TransactionResponseDTO;
+import com.bankingsystem.enums.TransactionType;
 import com.bankingsystem.exception.AccountNotFoundException;
 import com.bankingsystem.transaction.entity.Transaction;
 import com.bankingsystem.transaction.repository.TransactionRepository;
