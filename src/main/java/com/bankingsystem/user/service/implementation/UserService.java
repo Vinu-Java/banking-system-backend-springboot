@@ -23,13 +23,13 @@ public class UserService implements UserServiceInterface {
     public LoginResponseDTO login(AccountCredentialsDTO accountCredentialsDTO) {
 
         Account account = accountRepository.findByAccountNumber(accountCredentialsDTO.getAccountNumber()).orElseThrow(
-        ()-> new AccountNotFoundException("Account not found. Please check the account number."));
+        ()-> new AccountNotFoundException("Incorrect account number"));
 
        User user = account.getUser();
 
        if(!user.getPassword().equals(accountCredentialsDTO.getPassword()))
        {
-           throw new InvalidCredentialsException("Invalid credentials. Please try again.");
+           throw new InvalidCredentialsException("Incorrect password");
        }
 
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
