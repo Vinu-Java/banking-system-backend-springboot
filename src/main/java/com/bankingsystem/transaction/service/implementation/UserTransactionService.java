@@ -8,7 +8,7 @@ import com.bankingsystem.enums.TransactionType;
 import com.bankingsystem.exception.AccountNotFoundException;
 import com.bankingsystem.transaction.entity.Transaction;
 import com.bankingsystem.transaction.repository.TransactionRepository;
-import com.bankingsystem.transaction.service.TransactionServiceInterface;
+import com.bankingsystem.transaction.service.UserTransactionServiceInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class TransactionService implements TransactionServiceInterface {
+public class UserTransactionService implements UserTransactionServiceInterface {
 
     TransactionRepository transactionRepository;
     AccountRepository accountRepository;

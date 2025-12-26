@@ -3,7 +3,7 @@ package com.bankingsystem.transaction.controller;
 import com.bankingsystem.dto.requestdto.TransactionHistoryRequestDTO;
 import com.bankingsystem.dto.responsedto.TransactionResponseDTO;
 import com.bankingsystem.enums.TransactionType;
-import com.bankingsystem.transaction.service.TransactionServiceInterface;
+import com.bankingsystem.transaction.service.UserTransactionServiceInterface;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/transaction")
-public class TransactionController {
+public class UserTransactionController {
 
-    TransactionServiceInterface service;
+    UserTransactionServiceInterface service;
 
 
     @GetMapping("/all")

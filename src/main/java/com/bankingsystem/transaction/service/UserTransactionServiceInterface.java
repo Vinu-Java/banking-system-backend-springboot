@@ -5,7 +5,7 @@ import com.bankingsystem.dto.responsedto.TransactionResponseDTO;
 import com.bankingsystem.enums.TransactionType;
 import org.springframework.data.domain.Page;
 
-public interface TransactionServiceInterface {
+public interface UserTransactionServiceInterface {
     Page<TransactionResponseDTO> getTransactionsByAccountNumber(TransactionHistoryRequestDTO transactionHistoryRequestDTO);
 
     Page<TransactionResponseDTO> getTransactionsByRequiredType(TransactionHistoryRequestDTO transactionHistoryRequestDTO,

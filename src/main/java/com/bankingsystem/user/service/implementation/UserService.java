@@ -2,7 +2,7 @@ package com.bankingsystem.user.service.implementation;
 
 import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
-import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
+import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
 import com.bankingsystem.dto.responsedto.LoginResponseDTO;
 import com.bankingsystem.exception.AccountNotFoundException;
 import com.bankingsystem.exception.InvalidCredentialsException;
@@ -20,7 +20,7 @@ public class UserService implements UserServiceInterface {
     UserRepository userRepository;
 
     @Override
-    public LoginResponseDTO login(AccountCredentialsDTO accountCredentialsDTO) {
+    public LoginResponseDTO login(BalanceEnquiryRequestDTO accountCredentialsDTO) {
 
         Account account = accountRepository.findByAccountNumber(accountCredentialsDTO.getAccountNumber()).orElseThrow(
         ()-> new AccountNotFoundException("Incorrect account number"));
