@@ -4,6 +4,8 @@ import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
 import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
 import com.bankingsystem.dto.responsedto.LoginResponseDTO;
+import com.bankingsystem.dto.responsedto.ProfileResponseDto;
+import com.bankingsystem.enums.AccountStatus;
 import com.bankingsystem.exception.AccountNotFoundException;
 import com.bankingsystem.exception.InvalidCredentialsException;
 import com.bankingsystem.user.entity.User;
@@ -22,28 +24,55 @@ public class UserService implements UserServiceInterface {
     @Override
     public LoginResponseDTO login(AccountCredentialsDTO accountCredentialsDTO) {
 
-        Account account = accountRepository.findByAccountNumber(accountCredentialsDTO.getAccountNumber()).orElseThrow(
-        ()-> new AccountNotFoundException("Incorrect account number"));
+        Account account = accountRepository
+                .findByAccountNumber(accountCredentialsDTO.getAccountNumber())
+                .orElseThrow(() -> new AccountNotFoundException("Incorrect account number"));
 
-       User user = account.getUser();
+        if (account.getStatus() == AccountStatus.BLOCKED) {
+            throw new InvalidCredentialsException("Account is blocked");
+        }
 
-       if(!user.getPassword().equals(accountCredentialsDTO.getPassword()))
-       {
-           throw new InvalidCredentialsException("Incorrect password");
-       }
+        User user = account.getUser();
 
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+        if (!accountCredentialsDTO.getPassword().equals(user.getPassword())) {
+            throw new InvalidCredentialsException("Incorrect password");
+        }
 
-        loginResponseDTO.setUserId(user.getUserId());
-        loginResponseDTO.setUserName(user.getName());
-        loginResponseDTO.setRole(user.getRole());
-        loginResponseDTO.setAccountNumber(account.getAccountNumber());
-        loginResponseDTO.setEmail(user.getEmail());
-        loginResponseDTO.setAccountType(account.getAccountType());
-        loginResponseDTO.setAccountStatus(account.getStatus());
+        LoginResponseDTO dto = new LoginResponseDTO();
 
-        return loginResponseDTO;
+        dto.setUserId(user.getUserId());
+        dto.setUserName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
 
+        dto.setAccountNumber(account.getAccountNumber());
+        dto.setAccountType(account.getAccountType());
+        dto.setAccountStatus(account.getStatus());
 
+        return dto;
     }
+
+    @Override
+    public ProfileResponseDto getUserById(Long id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException("Invalid user id"));
+
+        Account account = user.getAccount(); // association works here
+
+        ProfileResponseDto dto = new ProfileResponseDto();
+
+        dto.setUserId(user.getUserId());
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setPhone(user.getPhone());
+
+        dto.setAccountNumber(account.getAccountNumber());
+        dto.setAccountType(account.getAccountType().name());
+        dto.setBalance(account.getBalance());
+        dto.setStatus(account.getStatus().name());
+
+        return dto;
+    }
+
 }

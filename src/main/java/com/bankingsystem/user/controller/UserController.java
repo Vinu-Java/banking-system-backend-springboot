@@ -2,6 +2,7 @@ package com.bankingsystem.user.controller;
 
 import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
 import com.bankingsystem.dto.responsedto.LoginResponseDTO;
+import com.bankingsystem.dto.responsedto.ProfileResponseDto;
 import com.bankingsystem.user.service.UserServiceInterface;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,13 @@ public class UserController {
     UserServiceInterface userServiceInterface;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody AccountCredentialsDTO accountCredentialsDTO){
-
+    public ResponseEntity<LoginResponseDTO> login(
+            @Valid @RequestBody AccountCredentialsDTO accountCredentialsDTO){
        return ResponseEntity.ok( userServiceInterface.login(accountCredentialsDTO));
+    }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ProfileResponseDto> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userServiceInterface.getUserById(id));
     }
 }
