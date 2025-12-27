@@ -3,7 +3,7 @@ spring:
     name: banking-system
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/banking-system?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/banking_system?createDatabaseIfNotExist=true
     username: root
     password: root
 
