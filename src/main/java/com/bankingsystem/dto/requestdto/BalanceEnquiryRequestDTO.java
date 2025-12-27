@@ -10,7 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class AccountCredentialsDTO {
+
+public class BalanceEnquiryRequestDTO {
 
     @NotBlank(message = "Account number is required")
     @Size(min = 10, max = 10, message = "Account number must be exactly 10 digits")

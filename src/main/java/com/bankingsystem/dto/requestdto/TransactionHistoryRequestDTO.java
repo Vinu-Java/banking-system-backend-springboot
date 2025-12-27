@@ -23,4 +23,6 @@ public class TransactionHistoryRequestDTO {
     @Min(value = 1, message = "Size must be at least 1")
     @Max(value = 100, message = "Size must not exceed 100")
     private Integer size;
+
+
 }
