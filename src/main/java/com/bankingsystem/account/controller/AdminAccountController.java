@@ -30,21 +30,28 @@ public class AdminAccountController {
                 .body(response);
     }
 
-    @PutMapping("/update/{accountId}")
-    public ResponseEntity<UpdateAccountResponseDTO> updateAccount(
-            @PathVariable Long accountId,
+    @PutMapping("/update")
+    public ResponseEntity<Void> updateAccount(
             @Valid @RequestBody UpdateAccountRequestDTO dto) {
 
-        UpdateAccountResponseDTO response =
-                adminAccountService.updateAccount(accountId, dto);
+        adminAccountService.updateAccount(dto);
+
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/validate")
+    public ResponseEntity<AccountNumberValidationResponseDTO> validateAccount(
+            @Valid @RequestBody AccountNumberValidationRequestDTO dto) {
+
+        AccountNumberValidationResponseDTO response =
+                adminAccountService.validateAccountNumber(dto);
 
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete/{accountId}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteAccount(@Valid @RequestBody DeleteRequestDto dto) {
 
-        adminAccountService.deleteAccount(accountId);
+        adminAccountService.deleteAccount(dto);
         return ResponseEntity.noContent().build();
     }
 

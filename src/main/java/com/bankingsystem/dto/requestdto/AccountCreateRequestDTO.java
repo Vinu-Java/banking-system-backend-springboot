@@ -6,7 +6,6 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-
 public class AccountCreateRequestDTO {
 
     @NotBlank(message = "name should be not null")

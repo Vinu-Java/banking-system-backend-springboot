@@ -3,14 +3,8 @@ package com.bankingsystem.account.service.implentation;
 import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
 import com.bankingsystem.account.service.AdminAccountServiceInterface;
-import com.bankingsystem.dto.requestdto.AccountCreateRequestDTO;
-import com.bankingsystem.dto.requestdto.DepositRequestDTO;
-import com.bankingsystem.dto.requestdto.UpdateAccountRequestDTO;
-import com.bankingsystem.dto.requestdto.WithdrawRequestDTO;
-import com.bankingsystem.dto.responsedto.AccountResponseDTO;
-import com.bankingsystem.dto.responsedto.DepositResponseDTO;
-import com.bankingsystem.dto.responsedto.UpdateAccountResponseDTO;
-import com.bankingsystem.dto.responsedto.WithdrawResponseDTO;
+import com.bankingsystem.dto.requestdto.*;
+import com.bankingsystem.dto.responsedto.*;
 import com.bankingsystem.enums.AccountStatus;
 import com.bankingsystem.enums.Role;
 import com.bankingsystem.enums.TransactionType;
@@ -58,32 +52,51 @@ public class AdminAccountService implements AdminAccountServiceInterface {
     }
 
     @Override
-    public UpdateAccountResponseDTO updateAccount(Long accountId, UpdateAccountRequestDTO dto) {
-
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
-
+    public AccountNumberValidationResponseDTO validateAccountNumber(AccountNumberValidationRequestDTO dto) {
+        Account account = accountRepository
+                .findByAccountNumber(dto.getAccountNumber())
+                .orElseThrow(() ->
+                        new AccountNotFoundException(
+                                "Invalid account number: " + dto.getAccountNumber()));
         User user = account.getUser();
+
+        AccountNumberValidationResponseDTO response =
+                new AccountNumberValidationResponseDTO();
+
+        response.setAccountNumber(account.getAccountNumber());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+
+        return response;
+    }
+
+    @Override
+    public void updateAccount(UpdateAccountRequestDTO dto) {
+
+        Account account = accountRepository
+                .findByAccountNumber(dto.getAccountNumber())
+                .orElseThrow(() ->
+                        new AccountNotFoundException(
+                                "Invalid account number: " + dto.getAccountNumber()));
+        User user = account.getUser();
+
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
 
         userRepository.save(user);
-
-        return new UpdateAccountResponseDTO(
-                account.getAccountNumber(),
-                user.getName(),
-                user.getEmail(),
-                user.getPhone()
-        );
     }
 
     @Override
     @Transactional
-    public void deleteAccount(Long accountId) {
+    public void deleteAccount(DeleteRequestDto dto) {
 
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        Account account = accountRepository
+                .findByAccountNumber(dto.getAccountNumber())
+                .orElseThrow(() ->
+                        new AccountNotFoundException("Account not found")
+                );
 
         if (account.getBalance() > 0) {
             throw new AccountBalanceNotZeroException(
@@ -142,6 +155,7 @@ public class AdminAccountService implements AdminAccountServiceInterface {
                 account.getBalance()
         );
     }
+
 
     private String generateAccountNumber() {
         return String.valueOf(

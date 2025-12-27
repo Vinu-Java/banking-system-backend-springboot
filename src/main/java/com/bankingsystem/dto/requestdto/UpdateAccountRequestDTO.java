@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 public class UpdateAccountRequestDTO {
 
+    @NotBlank(message = "Account number must not be blank")
+    private String accountNumber;
+
     @NotBlank(message = "Name should not be blank")
     private String name;
 
@@ -18,8 +21,4 @@ public class UpdateAccountRequestDTO {
     @NotBlank(message = "Phone should not be blank")
     @Size(min = 10, max = 10, message = "Phone number must be 10 digits")
     private String phone;
-
-    @NotBlank(message = "Password should not be blank")
-    @Size(min = 6, message = "Password must be at least 6 characters")
-    private String password;
 }

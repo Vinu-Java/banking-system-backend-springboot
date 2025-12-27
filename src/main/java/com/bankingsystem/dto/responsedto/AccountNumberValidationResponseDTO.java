@@ -1,13 +1,9 @@
 package com.bankingsystem.dto.responsedto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UpdateAccountResponseDTO {
+public class AccountNumberValidationResponseDTO {
 
     private String accountNumber;
     private String name;

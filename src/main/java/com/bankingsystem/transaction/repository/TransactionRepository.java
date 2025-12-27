@@ -36,7 +36,7 @@ public interface TransactionRepository extends JpaRepository<Transaction,Long> {
                   WHERE t.timestamp BETWEEN :start AND :end
                   AND (:type IS NULL OR t.type = :type)
               """)
-    Page<Transaction> `findAllForManager`(
+    Page<Transaction> findAllForManager(
             LocalDateTime start,
             LocalDateTime end,
             TransactionType type,

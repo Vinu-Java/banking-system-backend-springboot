@@ -2,18 +2,20 @@ package com.bankingsystem.account.service;
 
 import com.bankingsystem.dto.requestdto.*;
 import com.bankingsystem.dto.responsedto.*;
+import jakarta.validation.Valid;
 
 
 public interface AdminAccountServiceInterface {
 
     AccountResponseDTO createAccount(AccountCreateRequestDTO dto);
 
-    UpdateAccountResponseDTO updateAccount(Long accountId, UpdateAccountRequestDTO dto);
+    void updateAccount(UpdateAccountRequestDTO dto);
 
-    void deleteAccount(Long accountId);
+    void deleteAccount(DeleteRequestDto dto);
 
     DepositResponseDTO deposit(DepositRequestDTO dto);
 
     WithdrawResponseDTO withdraw(WithdrawRequestDTO dto);
 
+    AccountNumberValidationResponseDTO validateAccountNumber(@Valid AccountNumberValidationRequestDTO dto);
 }
