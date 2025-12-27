@@ -1,6 +1,7 @@
 package com.bankingsystem.user.controller;
 
 import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
+import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
 import com.bankingsystem.dto.responsedto.LoginResponseDTO;
 import com.bankingsystem.dto.responsedto.ProfileResponseDto;
 import com.bankingsystem.user.service.UserServiceInterface;
@@ -17,8 +18,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(
-            @Valid @RequestBody AccountCredentialsDTO accountCredentialsDTO){
-       return ResponseEntity.ok( userServiceInterface.login(accountCredentialsDTO));
+            @Valid @RequestBody BalanceEnquiryRequestDTO balanceEnquiryRequestDTO){
+       return ResponseEntity.ok( userServiceInterface.login(balanceEnquiryRequestDTO));
     }
 
     @GetMapping("/user/{id}")
