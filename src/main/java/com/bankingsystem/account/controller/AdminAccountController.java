@@ -18,7 +18,6 @@ public class AdminAccountController {
     private final AccountServiceInterface accountService;
     private final AdminAccountServiceInterface adminAccountService;
 
-
     @PostMapping("/create")
     public ResponseEntity<AccountResponseDTO> createAccount(
             @Valid @RequestBody AccountCreateRequestDTO dto) {
@@ -79,5 +78,10 @@ public class AdminAccountController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/bank-details")
+    public ResponseEntity<BankDashboardResponseDTO> bankDetails(){
+        BankDashboardResponseDTO dto = adminAccountService.getDashboardData();
+        return ResponseEntity.ok(dto);
+    }
 
 }
