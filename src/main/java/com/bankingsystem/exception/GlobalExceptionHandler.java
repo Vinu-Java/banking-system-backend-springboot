@@ -1,6 +1,7 @@
 package com.bankingsystem.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,10 +11,27 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDuplicateEntry(DataIntegrityViolationException ex) {
+
+        String message = ex.getRootCause().getMessage();
+    System.out.println(message);
+        if (message.contains("email")) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
+        if (message.contains("phone")) {
+            return ResponseEntity.badRequest().body("Phone number already exists");
+        }
+        if (message.contains("account_number")) {
+            return ResponseEntity.badRequest().body("Account number already exists");
+        }
+
+        return ResponseEntity.badRequest().body("Duplicate data not allowed");
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(
