@@ -8,7 +8,7 @@ import com.bankingsystem.enums.TransactionType;
 import com.bankingsystem.exception.AccountNotFoundException;
 import com.bankingsystem.transaction.entity.Transaction;
 import com.bankingsystem.transaction.repository.TransactionRepository;
-import com.bankingsystem.transaction.service.TransactionServiceInterface;
+import com.bankingsystem.transaction.service.UserTransactionServiceInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,17 +18,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class TransactionService implements TransactionServiceInterface {
+public class UserTransactionService implements UserTransactionServiceInterface {
 
     TransactionRepository transactionRepository;
     AccountRepository accountRepository;
 
     @Override
     public Page<TransactionResponseDTO> getTransactionsByAccountNumber(
-            TransactionHistoryRequestDTO transactionHistoryRequestDTO) {
+            TransactionHistoryRequestDTO transactionHistoryRequestDTO)
+    {
 
         Account account = accountRepository.findByAccountNumber(transactionHistoryRequestDTO
-                .getAccountNumber()).orElseThrow(()-> new AccountNotFoundException("Account not found!"));
+                .getAccountNumber()).orElseThrow(() -> new AccountNotFoundException("Account not found!"));
 
         Pageable pageable = PageRequest.of(transactionHistoryRequestDTO.getPageNumber(),
                 transactionHistoryRequestDTO.getSize(), Sort.by("timestamp").descending());
@@ -40,22 +41,25 @@ public class TransactionService implements TransactionServiceInterface {
     }
 
     @Override
-    public Page<TransactionResponseDTO> getTransactionsByRequiredType(TransactionHistoryRequestDTO transactionHistoryRequestDTO,
-                                                                      TransactionType transactionType) {
+    public Page<TransactionResponseDTO> getTransactionsByRequiredType(
+            TransactionHistoryRequestDTO transactionHistoryRequestDTO,
+            TransactionType transactionType)
+    {
 
         Account account = accountRepository.findByAccountNumber(transactionHistoryRequestDTO
-                .getAccountNumber()).orElseThrow(()-> new AccountNotFoundException("Account not found!"));
+                .getAccountNumber()).orElseThrow(() -> new AccountNotFoundException("Account not found!"));
 
         Pageable pageable = PageRequest.of(transactionHistoryRequestDTO.getPageNumber(),
                 transactionHistoryRequestDTO.getSize(), Sort.by("timestamp").descending());
 
         Page<Transaction> transactionPage = transactionRepository
-                .findAllByAccountAndType(account,transactionType, pageable);
+                .findAllByAccountAndType(account, transactionType, pageable);
 
         return transactionPage.map(this::mapToDTO);
     }
 
-    private TransactionResponseDTO mapToDTO(Transaction transaction) {
+    private TransactionResponseDTO mapToDTO(Transaction transaction)
+    {
         TransactionResponseDTO dto = new TransactionResponseDTO();
         dto.setAmount(transaction.getAmount());
         dto.setBalanceAfter(transaction.getBalanceAfter());

@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
+
 public class BalanceEnquiryRequestDTO {
 
     @NotBlank(message = "Account number is required")
