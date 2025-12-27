@@ -16,4 +16,5 @@ public interface AdminAccountServiceInterface {
 
     WithdrawResponseDTO withdraw(WithdrawRequestDTO dto);
 
+    BankDashboardResponseDTO getDashboardData();
 }

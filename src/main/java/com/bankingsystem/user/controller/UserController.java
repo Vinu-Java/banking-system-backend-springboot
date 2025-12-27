@@ -1,6 +1,6 @@
 package com.bankingsystem.user.controller;
 
-import com.bankingsystem.dto.requestdto.AccountCredentialsDTO;
+
 import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
 import com.bankingsystem.dto.responsedto.LoginResponseDTO;
 import com.bankingsystem.dto.responsedto.ProfileResponseDto;

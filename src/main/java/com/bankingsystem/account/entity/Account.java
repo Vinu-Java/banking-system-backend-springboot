@@ -39,7 +39,7 @@ public class Account {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user;  
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
