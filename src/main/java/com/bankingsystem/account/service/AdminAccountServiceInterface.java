@@ -11,7 +11,7 @@ public interface AdminAccountServiceInterface {
 
     void updateAccount(UpdateAccountRequestDTO dto);
 
-    void deleteAccount(DeleteRequestDto dto);
+    void closeAccount(String accountNumber);
 
     DepositResponseDTO deposit(DepositRequestDTO dto);
 

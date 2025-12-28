@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -74,6 +75,9 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         response.setName(user.getName());
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
+        response.setStatus(account.getStatus());
+        response.setType(account.getAccountType());
+        response.setBalance(account.getBalance());
 
         return response;
     }
@@ -103,15 +107,25 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
     @Override
     @Transactional
-    public void deleteAccount(DeleteRequestDto dto) {
+    public void closeAccount(String accountNumber) {
 
-        Account account = accountRepository.findByAccountNumber(dto.getAccountNumber()).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() ->
+                        new AccountNotFoundException("Account not found")
+                );
 
-        if (account.getBalance() > 0) {
-            throw new AccountBalanceNotZeroException("Account cannot be deleted because balance is greater than zero");
+        if (account.getStatus() == AccountStatus.CLOSED) {
+            throw new AccountNotFoundException("Account is already closed");
         }
 
-        accountRepository.delete(account);
+        if (account.getBalance() > 0) {
+            throw new AccountBalanceNotZeroException(
+                    "Account cannot be closed because balance is greater than zero"
+            );
+        }
+
+        account.setStatus(AccountStatus.CLOSED);
+        accountRepository.save(account);
     }
 
     @Override

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/transaction")
+@RequestMapping("/user/transaction")
 public class UserTransactionController {
 
     UserTransactionServiceInterface service;

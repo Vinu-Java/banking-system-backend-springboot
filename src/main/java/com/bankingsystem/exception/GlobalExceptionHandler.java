@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.NOT_ACCEPTABLE.value(),
+                HttpStatus.CONFLICT.value(),
                 e.getMessage(),
                 request.getRequestURI()
         );

@@ -7,6 +7,7 @@ import com.bankingsystem.dto.responsedto.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,10 +48,10 @@ public class AdminAccountController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteAccount(@Valid @RequestBody DeleteRequestDto dto) {
+    @DeleteMapping(value = "/close/{accountNumber}", produces = MediaType.ALL_VALUE)
+    public ResponseEntity<Void> deleteAccount(@PathVariable String accountNumber) {
 
-        adminAccountService.deleteAccount(dto);
+        adminAccountService.closeAccount(accountNumber);
         return ResponseEntity.noContent().build();
     }
 
