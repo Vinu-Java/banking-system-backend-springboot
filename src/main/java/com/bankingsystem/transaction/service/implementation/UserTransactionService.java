@@ -61,6 +61,7 @@ public class UserTransactionService implements UserTransactionServiceInterface {
     private TransactionResponseDTO mapToDTO(Transaction transaction)
     {
         TransactionResponseDTO dto = new TransactionResponseDTO();
+        dto.setTransactionId(transaction.getTransactionId());
         dto.setAmount(transaction.getAmount());
         dto.setBalanceAfter(transaction.getBalanceAfter());
         dto.setTimestamp(transaction.getTimestamp());

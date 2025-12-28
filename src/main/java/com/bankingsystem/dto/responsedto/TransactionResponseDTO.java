@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class TransactionResponseDTO {
 
+    private Long transactionId;
     private LocalDateTime timestamp;
     private TransactionType type;
     private Double amount;

@@ -19,7 +19,7 @@ public class UserTransactionController {
     UserTransactionServiceInterface service;
 
 
-    @GetMapping("/all")
+    @PostMapping("/all")
     private ResponseEntity<Page<TransactionResponseDTO>> getTransactionsByAccountNumber(@RequestBody TransactionHistoryRequestDTO transactionHistoryRequestDTO ) {
 
         return  ResponseEntity.ok( service.getTransactionsByAccountNumber(transactionHistoryRequestDTO));
