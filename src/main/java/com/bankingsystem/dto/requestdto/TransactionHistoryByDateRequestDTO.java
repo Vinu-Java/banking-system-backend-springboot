@@ -1,18 +1,20 @@
 package com.bankingsystem.dto.requestdto;
 
 import com.bankingsystem.enums.TransactionType;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminTransactionHistoryRequestDTO {
+public class TransactionHistoryByDateRequestDTO {
+
+    @NotBlank(message = "Account number is required")
+    @Size(min = 10, max = 10, message = "Account number must be exactly 10 digits")
+    @Pattern(regexp = "\\d+", message = "Account number must contain only digits")
+    private String accountNumber;
 
     @NotNull(message = "From date is required")
     private LocalDate fromDate;
@@ -28,5 +30,4 @@ public class AdminTransactionHistoryRequestDTO {
     private int size = 10;
 
     private TransactionType transactionType;
-
 }

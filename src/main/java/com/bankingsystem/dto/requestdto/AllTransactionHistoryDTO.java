@@ -1,15 +1,12 @@
 package com.bankingsystem.dto.requestdto;
 
-import com.bankingsystem.enums.TransactionType;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Data;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+import java.time.LocalDate;
 
-public class TransactionHistoryRequestDTO {
+@Data
+public class AllTransactionHistoryDTO {
 
     @NotBlank(message = "Account number is required")
     @Size(min = 10, max = 10, message = "Account number must be exactly 10 digits")
@@ -24,8 +21,5 @@ public class TransactionHistoryRequestDTO {
     @Min(value = 1, message = "Size must be at least 1")
     @Max(value = 100, message = "Size must not exceed 100")
     private Integer size;
-
-    private TransactionType transactionType;
-
 
 }

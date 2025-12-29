@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 public class TransactionResponseDTO {
 
     private Long transactionId;
-    private LocalDateTime timestamp;
+    private LocalDateTime transactionDate;
     private TransactionType type;
     private Double amount;
     private Double balanceAfter;
 }
+
