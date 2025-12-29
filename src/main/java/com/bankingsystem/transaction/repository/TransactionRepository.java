@@ -14,17 +14,39 @@ import java.time.LocalDateTime;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
+    @Query("""
+                SELECT t
+                FROM Transaction t
+                WHERE t.account = :account
+                  AND t.type = :type
+                  AND t.timestamp BETWEEN :fromDate AND :toDate
+            """)
+    Page<Transaction> findTransactionsByDateRange(
+            Account account,
+            TransactionType type,
+            LocalDateTime fromDate,
+            LocalDateTime toDate,
+            Pageable pageable
+    );
+
+    @Query("""
+                SELECT t
+                FROM Transaction t
+                WHERE t.account = :account
+                  AND t.timestamp BETWEEN :fromDate AND :toDate
+            """)
+    Page<Transaction> findAllTransactionsByDateRange(
+            Account account,
+            LocalDateTime fromDate,
+            LocalDateTime toDate,
+            Pageable pageable
+    );
+
     Page<Transaction> findAllByAccount(Account accountId, Pageable pageable);
 
     Page<Transaction> findAllByAccountAndType(
             Account account,
             TransactionType type,
-            Pageable pageable
-    );
-
-    Page<Transaction> findAllByTimestampBetween(
-            LocalDateTime start,
-            LocalDateTime end,
             Pageable pageable
     );
 
@@ -62,6 +84,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             WHERE t.timestamp BETWEEN :start AND :end
             """)
     long todayTransactions(LocalDateTime start, LocalDateTime end);
-
 
 }
