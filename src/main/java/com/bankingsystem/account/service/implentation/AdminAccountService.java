@@ -32,8 +32,8 @@ public class AdminAccountService implements AdminAccountServiceInterface {
     private final AccountService accountService;
     private final TransactionRepository transactionRepository;
 
-
     @Override
+    @Transactional
     public AccountResponseDTO createAccount(AccountCreateRequestDTO dto) {
 
         User user = new User();
@@ -82,7 +82,6 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         return response;
     }
 
-
     @Override
     @Transactional
     public void updateAccount(UpdateAccountRequestDTO dto) {
@@ -103,7 +102,6 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
         userRepository.save(user);
     }
-
 
     @Override
     @Transactional
@@ -177,7 +175,6 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
         BankDashboardResponseDTO dto = new BankDashboardResponseDTO();
 
-
         dto.setTotalAccounts(accountRepository.countTotalAccounts());
         dto.setSavingsAccounts(accountRepository.countSavingsAccounts());
         dto.setCurrentAccounts(accountRepository.countCurrentAccounts());
@@ -191,19 +188,25 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         return dto;
     }
 
-
-
     private String generateAccountNumber() {
         return String.valueOf(Math.abs(UUID.randomUUID().getMostSignificantBits())).substring(0, 10);
     }
 
     private AccountResponseDTO mapToResponse(Account account) {
+
+        User user = account.getUser();
+
         AccountResponseDTO response = new AccountResponseDTO();
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+        response.setPhone(user.getPhone());
+        response.setPassword(user.getPassword());
+
         response.setAccountNumber(account.getAccountNumber());
         response.setAccountType(account.getAccountType());
         response.setBalance(account.getBalance());
         response.setStatus(account.getStatus());
+
         return response;
     }
-
 }

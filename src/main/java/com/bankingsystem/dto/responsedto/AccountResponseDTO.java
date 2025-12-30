@@ -7,6 +7,10 @@ import lombok.Data;
 @Data
 public class AccountResponseDTO {
 
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
     private String accountNumber;
     private AccountType accountType;
     private Double balance;

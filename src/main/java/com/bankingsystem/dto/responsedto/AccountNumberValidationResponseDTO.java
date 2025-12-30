@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class AccountNumberValidationResponseDTO {
-
     private String accountNumber;
     private String name;
     private String email;
