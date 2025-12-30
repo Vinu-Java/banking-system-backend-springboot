@@ -9,7 +9,7 @@ public interface AdminAccountServiceInterface {
 
     AccountResponseDTO createAccount(AccountCreateRequestDTO dto);
 
-    void updateAccount(UpdateAccountRequestDTO dto);
+    AccountResponseDTO updateAccount(UpdateAccountRequestDTO dto);
 
     void closeAccount(String accountNumber);
 

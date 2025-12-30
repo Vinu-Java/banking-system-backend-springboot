@@ -31,7 +31,7 @@ public class AdminAccountController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateAccount(
+    public ResponseEntity<AccountResponseDTO> updateAccount(
             @Valid @RequestBody UpdateAccountRequestDTO dto) {
 
         adminAccountService.updateAccount(dto);

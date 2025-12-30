@@ -84,15 +84,14 @@ public class AdminAccountService implements AdminAccountServiceInterface {
 
     @Override
     @Transactional
-    public void updateAccount(UpdateAccountRequestDTO dto) {
+    public AccountResponseDTO updateAccount(UpdateAccountRequestDTO dto) {
 
         Account account = accountRepository
                 .findByAccountNumber(dto.getAccountNumber())
                 .orElseThrow(() ->
                         new AccountNotFoundException(
                                 "Invalid account number: " + dto.getAccountNumber()
-                        )
-                );
+                        ));
 
         User user = account.getUser();
 
@@ -101,6 +100,9 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         user.setPhone(dto.getPhone());
 
         userRepository.save(user);
+
+        return mapToResponse(account);
+
     }
 
     @Override
