@@ -200,7 +200,6 @@ public class AdminAccountService implements AdminAccountServiceInterface {
         response.setName(user.getName());
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
-        response.setPassword(user.getPassword());
 
         response.setAccountNumber(account.getAccountNumber());
         response.setAccountType(account.getAccountType());
