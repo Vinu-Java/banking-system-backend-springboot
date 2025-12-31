@@ -21,18 +21,20 @@ public class GlobalExceptionHandler {
             DataIntegrityViolationException e,
             HttpServletRequest request) {
 
-        String message = "Duplicate value not allowed";
+        String rootCause = e.getMostSpecificCause().getMessage();
+       String message = "Duplicate value not allowed";
 
-        if (e.getMostSpecificCause().getMessage().contains("email")) {
+        if (rootCause.contains("uk_users_email")) {
             message = "Email already exists";
-        } else if (e.getMostSpecificCause().getMessage().contains("phone")) {
+        }
+        else if (rootCause.contains("uk_users_phone")) {
             message = "Phone number already exists";
         }
 
         ErrorResponse response = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
-                e.getMessage(),
+                message,
                 request.getRequestURI()
         );
 

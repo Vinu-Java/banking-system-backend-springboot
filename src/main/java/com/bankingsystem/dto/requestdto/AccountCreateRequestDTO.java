@@ -8,18 +8,19 @@ import lombok.Data;
 @Data
 public class AccountCreateRequestDTO {
 
-    @NotBlank(message = "name should be not null")
+    @NotBlank(message = "Name must not be blank")
     private String name;
 
-    @NotBlank(message = "Email should not be blank")
-    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Email must be valid")
     private String email;
 
-    @NotBlank(message = "Phone number should not be blank")
-    @Size(min = 10, max = 10, message = "Phone number must be 10 digits")
+    @NotBlank(message = "Phone number must not be blank")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
     private String phone;
 
-    @NotBlank(message = "Password should not be blank")
+
+    @NotBlank(message = "Password must not be blank")
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 

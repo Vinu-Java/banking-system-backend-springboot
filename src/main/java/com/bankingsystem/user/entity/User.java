@@ -14,8 +14,14 @@ import lombok.NoArgsConstructor;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email"),
-                @UniqueConstraint(columnNames = "phone")
+                @UniqueConstraint(
+                        name = "uk_users_email",
+                        columnNames = "email"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_phone",
+                        columnNames = "phone"
+                )
         }
 )
 public class User {
@@ -43,3 +49,4 @@ public class User {
  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
  private Account account;
 }
+
