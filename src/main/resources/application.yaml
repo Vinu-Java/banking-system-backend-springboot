@@ -3,9 +3,9 @@ spring:
     name: banking-system
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/banking_new_project?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/banking_system?createDatabaseIfNotExist=true
     username: root
-    password: Vijay@09
+    password: Vinu@2003
 
   jpa:
     show-sql: true

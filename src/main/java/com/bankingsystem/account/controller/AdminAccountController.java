@@ -38,6 +38,7 @@ public class AdminAccountController {
 
         return ResponseEntity.ok().build();
     }
+
     @PostMapping("/validate")
     public ResponseEntity<AccountNumberValidationResponseDTO> validateAccount(
             @Valid @RequestBody AccountNumberValidationRequestDTO dto) {
