@@ -26,27 +26,6 @@ public class TransactionService implements TransactionServiceInterface {
    private final AccountRepository accountRepository;
 
     @Override
-    public Page<TransactionResponseDTO> getByRequiredDate(TransactionHistoryByDateRequestDTO dto) {
-
-        Account account = accountRepository.findByAccountNumber(dto
-                .getAccountNumber()).orElseThrow(() -> new AccountNotFoundException("Account not found!"));
-
-        Pageable pageable = PageRequest.of(dto.getPageNumber(),
-                dto.getSize(), Sort.by("timestamp").descending());
-
-        Page<Transaction> transactionPage = repository.findTransactionsByDateRange(
-                account,
-                dto.getTransactionType(),
-                dto.getFromDate().atStartOfDay(),
-                dto.getToDate().atTime(23, 59, 59),
-                pageable
-        );
-
-        return transactionPage.map(this::mapToDTO);
-
-    }
-
-    @Override
     public Page<TransactionResponseDTO> getaAllTransaction(TransactionHistoryRequestDTO dto) {
 
         Account account = accountRepository.findByAccountNumber(dto
@@ -58,27 +37,6 @@ public class TransactionService implements TransactionServiceInterface {
         Page<Transaction> transactionPage = repository.findAllByAccountAndType(
                 account,
                 dto.getTransactionType(),
-                pageable
-        );
-
-        return transactionPage.map(this::mapToDTO);
-
-    }
-
-    @Override
-    public Page<TransactionResponseDTO> allTransactionHistoryByRequiredDateDTO(AllTransactionHistoryByRequiredDateDTO dto) {
-
-
-        Account account = accountRepository.findByAccountNumber(dto
-                .getAccountNumber()).orElseThrow(() -> new AccountNotFoundException("Account not found!"));
-
-        Pageable pageable = PageRequest.of(dto.getPageNumber(),
-                dto.getSize(), Sort.by("timestamp").descending());
-
-        Page<Transaction> transactionPage = repository.findAllTransactionsByDateRange(
-                account,
-                dto.getFromDate().atStartOfDay(),
-                dto.getToDate().atTime(23, 59, 59),
                 pageable
         );
 
@@ -102,7 +60,6 @@ public class TransactionService implements TransactionServiceInterface {
         return transactionPage.map(this::mapToDTO);
     }
 
-
     private TransactionResponseDTO mapToDTO(Transaction transaction) {
         TransactionResponseDTO dto = new TransactionResponseDTO();
 
@@ -114,6 +71,4 @@ public class TransactionService implements TransactionServiceInterface {
 
         return dto;
     }
-
-
 }

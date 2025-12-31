@@ -2,6 +2,7 @@ package com.bankingsystem.account.controller;
 
 import com.bankingsystem.account.service.AccountServiceInterface;
 import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
+import com.bankingsystem.dto.requestdto.BalanceRequestDto;
 import com.bankingsystem.dto.requestdto.TransferRequestDTO;
 import com.bankingsystem.dto.responsedto.BalanceEnquiryResponseDTO;
 import com.bankingsystem.dto.responsedto.TransferResponseDTO;
@@ -27,8 +28,17 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/balance")
-    public ResponseEntity<BalanceEnquiryResponseDTO> balanceEnquiry(
+    @PostMapping("/balance/by-manager")
+    public ResponseEntity<BalanceEnquiryResponseDTO> userBalanceEnquiry(
+            @Valid @RequestBody BalanceRequestDto balanceRequestDto) {
+
+        BalanceEnquiryResponseDTO response =
+                accountServiceInterface.balanceEnquiry(balanceRequestDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/balance/by-user")
+    public ResponseEntity<BalanceEnquiryResponseDTO> balanceEnquiryByManager(
             @Valid @RequestBody BalanceEnquiryRequestDTO balanceEnquiryRequestDTO) {
 
         BalanceEnquiryResponseDTO response =

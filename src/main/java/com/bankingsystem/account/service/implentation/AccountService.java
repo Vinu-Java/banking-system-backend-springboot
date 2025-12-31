@@ -4,6 +4,7 @@ import com.bankingsystem.account.entity.Account;
 import com.bankingsystem.account.repository.AccountRepository;
 import com.bankingsystem.account.service.AccountServiceInterface;
 import com.bankingsystem.dto.requestdto.BalanceEnquiryRequestDTO;
+import com.bankingsystem.dto.requestdto.BalanceRequestDto;
 import com.bankingsystem.dto.requestdto.TransferRequestDTO;
 import com.bankingsystem.dto.responsedto.BalanceEnquiryResponseDTO;
 import com.bankingsystem.dto.responsedto.TransferResponseDTO;
@@ -79,7 +80,22 @@ public class AccountService implements AccountServiceInterface {
 
         return new BalanceEnquiryResponseDTO(
                 account.getAccountNumber(),
-                account.getBalance()
+                account.getBalance(),
+                account.getStatus()
+        );
+    }
+
+    @Override
+    public BalanceEnquiryResponseDTO balanceEnquiry(BalanceRequestDto dto) {
+
+        Account account = accountRepository
+                .findByAccountNumber(dto.getAccountNumber())
+                .orElseThrow(() -> new AccountNotFoundException("Incorrect account number"));
+
+        return new BalanceEnquiryResponseDTO(
+                account.getAccountNumber(),
+                account.getBalance(),
+                account.getStatus()
         );
     }
 

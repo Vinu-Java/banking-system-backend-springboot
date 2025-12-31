@@ -10,11 +10,7 @@ import org.springframework.data.domain.Page;
 
 public interface TransactionServiceInterface 
 {
-    Page<TransactionResponseDTO> getByRequiredDate(@Valid TransactionHistoryByDateRequestDTO dto);
-
     Page<TransactionResponseDTO> getaAllTransaction(@Valid TransactionHistoryRequestDTO dto);
-
-    Page<TransactionResponseDTO> allTransactionHistoryByRequiredDateDTO(@Valid AllTransactionHistoryByRequiredDateDTO dto);
 
     Page<TransactionResponseDTO> allTransactionHistoryDTO(@Valid AllTransactionHistoryDTO dto);
 }
